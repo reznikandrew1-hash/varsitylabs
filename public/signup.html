@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign up · Varsity Labs</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root { color-scheme: light; --bg: #faf9f7; --surface: #ffffff; --surface-2: #f3f1ed; --line: #e6e2dc; --line-strong: #cdc6bd; --ink: #1a1a1a; --ink-2: #5c5c5c; --ink-3: #8a8a8a; --maroon: #6b1f2b; --maroon-ink: #ffffff; --maroon-soft: #f5e8ea; --ok: #2f6b45; --ok-soft: #e7f1ea; --warn: #9a3412; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --bg: #151312; --surface: #1d1b19; --surface-2: #262321; --line: #332f2c; --line-strong: #4b4541; --ink: #f2eee9; --ink-2: #b8b1aa; --ink-3: #847d76; --maroon: #d3717f; --maroon-ink: #1b0d10; --maroon-soft: #3a2026; --ok: #6fbf8a; --ok-soft: #1e3326; --warn: #f0905a; } }
+  :root[data-theme="dark"] { color-scheme: dark; --bg: #151312; --surface: #1d1b19; --surface-2: #262321; --line: #332f2c; --line-strong: #4b4541; --ink: #f2eee9; --ink-2: #b8b1aa; --ink-3: #847d76; --maroon: #d3717f; --maroon-ink: #1b0d10; --maroon-soft: #3a2026; --ok: #6fbf8a; --ok-soft: #1e3326; --warn: #f0905a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.6; }
+  h1, h2, h3 { font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; margin: 0; }
+  a { color: var(--maroon); }
+  .top { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--line); z-index: 5; }
+  .top .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+  .logo .v { width: 32px; height: 32px; background: var(--maroon); color: var(--maroon-ink); display: grid; place-items: center; font-family: "Archivo", sans-serif; font-weight: 800; font-size: 18px; border-radius: 8px; }
+  .logo .n { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 18px; }
+  .top nav { margin-left: auto; display: flex; gap: 2px; }
+  .top nav a { text-decoration: none; color: var(--ink-2); font-weight: 500; font-size: 14px; padding: 6px 10px; border-radius: 8px; }
+  .top nav a:hover { background: var(--surface-2); color: var(--ink); }
+  main { padding: 40px 0 72px; }
+  h1 { font-size: 36px; margin-bottom: 8px; }
+  .lede { color: var(--ink-2); margin: 0 0 24px; max-width: 60ch; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; margin-bottom: 16px; }
+  .card h2 { font-size: 20px; margin-bottom: 12px; }
+  label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 12px 0 5px; }
+  input, select { width: 100%; padding: 11px 13px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); color: inherit; font: inherit; font-size: 16px; }
+  input:focus, select:focus { outline: none; border-color: var(--maroon); box-shadow: 0 0 0 3px var(--maroon-soft); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 10px; padding: 12px 20px; font-weight: 600; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); text-decoration: none; cursor: pointer; }
+  .btn.pri { background: var(--maroon); color: var(--maroon-ink); border-color: var(--maroon); }
+  .btn.sm { padding: 8px 12px; font-size: 12px; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .chk { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--ink-2); margin: 14px 0; text-transform: none; letter-spacing: 0; font-weight: 400; }
+  .chk input { width: auto; margin-top: 4px; }
+  .msg { border-radius: 8px; padding: 9px 12px; font-size: 14px; margin-top: 12px; }
+  .msg.err { background: var(--maroon-soft); color: var(--maroon); font-weight: 600; }
+  .msg.ok { background: var(--ok-soft); color: var(--ok); font-weight: 600; }
+  .msg:empty { display: none; }
+  .rou { font-size: 12.5px; color: var(--ink-3); margin-top: 24px; }
+  footer { border-top: 1px solid var(--line); padding: 20px 0 40px; font-size: 12.5px; color: var(--ink-3); }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; } h1 { font-size: 30px; } .top nav { display: none; } }
+</style></head><body>
+<header class="top"><div class="wrap"><a class="logo" href="/"><span class="v">V</span><span class="n">Varsity Labs</span></a><nav><a href="/#shop">Shop</a><a href="/reports">Lab reports</a><a href="/login">Log in</a></nav></div></header>
+<main class="wrap">
+  <h1>Free member account</h1>
+  <p class="lede">15% off every 4-week reorder, order history in one place, a reminder when it's time to restock, and reorders in two taps. No card on file, nothing automatic, cancel the reminders any time.</p>
+  <form class="card" id="f" autocomplete="on">
+    <div class="row"><div><label for="first">First name</label><input id="first" name="first" required autocomplete="given-name"></div><div><label for="last">Last name</label><input id="last" name="last" autocomplete="family-name"></div></div>
+    <label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email">
+    <label for="phone">Mobile, for resupply texts (optional)</label><input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+    <label for="password">Password</label><input id="password" name="password" type="password" minlength="8" required autocomplete="new-password" placeholder="At least 8 characters">
+    <label class="chk"><input type="checkbox" id="reminders" checked> Text and email me when it's time to restock, based on my last order. I can turn this off any time.</label>
+    <label class="chk"><input type="checkbox" id="research" required> I am at least 21 and a qualified researcher purchasing solely for in vitro laboratory research, not for human or veterinary use.</label>
+    <button class="btn pri" type="submit" id="go">Create my account</button>
+    <div class="msg err" id="err"></div>
+    <p class="rou" style="margin-top:14px">Already a member? <a href="/login">Log in.</a> Want to sell? <a href="/reps">Become a rep.</a></p>
+  </form>
+  <p class="rou">We use your details to show your orders and send the reminders you asked for. We never sell your information. <a href="/policies#privacy">Privacy policy</a>.</p>
+</main>
+<script>
+  const q = new URLSearchParams(location.search); ["first", "last", "email", "phone"].forEach(k => { if (q.get(k)) document.getElementById(k).value = q.get(k); });
+  document.getElementById("f").addEventListener("submit", async e => {
+    e.preventDefault(); const err = document.getElementById("err"); err.textContent = ""; const go = document.getElementById("go"); go.disabled = true; go.textContent = "Creating…";
+    const v = id => document.getElementById(id).value.trim();
+    try {
+      const r = await fetch("/api/signup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ first: v("first"), last: v("last"), email: v("email"), phone: v("phone"), password: document.getElementById("password").value, reminders: document.getElementById("reminders").checked, research: document.getElementById("research").checked, orderId: q.get("order") || "" }) });
+      const j = await r.json(); if (!r.ok) throw new Error(j.error || "Couldn't create the account");
+      location.href = "/account" + (j.linked ? "?welcome=1" : "?welcome=1");
+    } catch (x) { err.textContent = x.message; go.disabled = false; go.textContent = "Create my account"; }
+  });
+</script>
+<footer><div class="wrap">All products sold by Varsity Labs are intended for laboratory research purposes only. Not for human or veterinary use. Not evaluated by the FDA. &copy; 2026 Varsity Labs.</div></footer>
+</body></html>

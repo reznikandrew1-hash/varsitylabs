@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>My code · Varsity Labs</title>
+%%FONTS%%<style>
+%%HEAD_CSS%%
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .top { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .v { width: 34px; height: 34px; background: var(--maroon); color: var(--maroon-ink); display: grid; place-items: center; font-family: "Big Shoulders Display", sans-serif; font-weight: 900; font-size: 26px; border-radius: 4px; }
+  .logo .n { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase; letter-spacing: .04em; }
+  .logo .n small { display: block; font-family: "Archivo", sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .18em; color: var(--ink-3); margin-top: -3px; white-space: nowrap; }
+  .top form { margin-left: auto; }
+%%TOAST_CSS%%%%OW_CSS%%
+  .ow { max-width: 1100px; }
+  .pt-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 6px 0 16px; }
+  .pt-code { font-family: "Big Shoulders Display", sans-serif; font-size: 56px; font-weight: 900; letter-spacing: .02em; line-height: .95; color: var(--maroon); }
+  .pt-sub { color: var(--ink-2); margin-top: 6px; font-size: 14px; }
+  .pt-banner { border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: 13.5px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .pt-banner.warn { background: var(--gold-soft); color: var(--ink); border-left: 4px solid var(--gold); }
+  .pt-banner.bad { background: #fadada; color: #7a1f1f; border-left: 4px solid #c0392b; }
+  .pt-banner.info { background: var(--surface-2); border-left: 4px solid var(--ink-3); }
+  :root[data-theme="dark"] .pt-banner.bad { background: #3d1f1f; color: #f3c4c4; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pt-banner.bad { background: #3d1f1f; color: #f3c4c4; } }
+  .pt-share { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+  .pt-link { display: flex; gap: 8px; align-items: center; background: var(--surface-2); border-radius: 10px; padding: 8px 10px; font-family: "IBM Plex Mono", monospace; font-size: 13px; overflow: hidden; }
+  .pt-link span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .pt-qr { width: 132px; height: 132px; background: #fff; border-radius: 10px; padding: 6px; display: grid; place-items: center; }
+  .pt-qr svg { width: 100%; height: 100%; }
+  .pt-prog { height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; margin: 8px 0 4px; }
+  .pt-prog i { display: block; height: 100%; background: var(--maroon); width: var(--w); border-radius: 5px; }
+  .pt-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pt-rules ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+  .pt-rules li { padding-left: 18px; position: relative; color: var(--ink-2); }
+  .pt-rules li::before { position: absolute; left: 0; top: 0; font-weight: 800; }
+  .pt-rules .say li::before { content: "✓"; color: var(--ok); }
+  .pt-rules .never li::before { content: "✕"; color: #c0392b; }
+  .pt-rules h4 { margin: 0 0 6px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+  .pt-empty { text-align: center; padding: 26px 18px; }
+  .pt-empty h3 { font-size: 22px; margin: 0 0 6px; }
+  .pt-form { display: grid; gap: 8px; max-width: 360px; }
+  .pt-form input { font: inherit; padding: 9px 11px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); color: var(--ink); }
+  @media (max-width: 760px) { .pt-share, .pt-rules { grid-template-columns: 1fr; } .pt-code { font-size: 42px; } }
+</style></head><body>
+<header class="top"><div class="wrap"><a class="logo" href="/"><span class="v">V</span><span class="n">Varsity Labs<small>REP PORTAL</small></span></a><form method="post" action="/logout"><button class="ow-btn ghost sm" type="submit">Log out</button></form></div></header>
+<section id="portal" class="ow"><p class="ow-note">Loading…</p></section>
+<div id="owModal"></div>
+<div id="toastRoot"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+let tt; function toast(msg) { $("#toastRoot").innerHTML = `<div class="toast">${msg}</div>`; clearTimeout(tt); tt = setTimeout(() => $("#toastRoot").innerHTML = "", 2400); }
+const P = { rep: null, viewer: null, raw: [], site: "", sample: false, pw: false };
+const TIER = { Rep: { rate: .15, next: "Senior", goal: 2000, how: "$2,000 on your code in a month, two months running" }, Senior: { rate: .18, next: "Manager", goal: null, how: "Recruit and run a campus team of 4 or more" }, Manager: { rate: .20, next: null, goal: null, how: "" } };
+const fm = n => "$" + Math.round(n).toLocaleString("en-US");
+const dstr = d => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+const ago = d => { const h = Math.round((Date.now() - d) / 36e5); if (h < 1) return "just now"; if (h < 24) return h + "h ago"; const dd = Math.round(h / 24); return dd === 1 ? "yesterday" : dd + "d ago"; };
+const inDays = (t, n, off = 0) => { const d = (Date.now() - t) / 864e5; return d >= off && d < n + off; };
+function barsSVG(vals, labels, color, h = 120) { const W = 600, pad = 28, max = Math.max(...vals) * 1.1 || 1, bw = (W - pad) / vals.length; const bars = vals.map((v, i) => `<rect x="${(pad + i * bw + 1).toFixed(1)}" y="${(h - 18 - v / max * (h - 26)).toFixed(1)}" width="${(bw - 2).toFixed(1)}" height="${(v / max * (h - 26)).toFixed(1)}" rx="2" fill="${color}" opacity="${.55 + .45 * (i / vals.length)}"><title>${labels[i]}: ${fm(v)}</title></rect>`).join(""); const xl = [0, Math.floor(vals.length / 2), vals.length - 1].map(i => `<text x="${(pad + i * bw + bw / 2).toFixed(1)}" y="${h - 4}" font-size="10" fill="var(--ink-3)" text-anchor="middle">${labels[i]}</text>`).join(""); return `<svg viewBox="0 0 ${W} ${h}" role="img" aria-label="weekly revenue"><text x="0" y="12" font-size="10" fill="var(--ink-3)">${fm(max / 1.1)}</text><line x1="${pad}" x2="${W}" y1="${h - 18}" y2="${h - 18}" stroke="var(--line)"/>${bars}${xl}</svg>`; }
+function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function sampleOrders(code) {
+  let seed = 7; for (const ch of code) seed = (seed * 31 + ch.charCodeAt(0)) | 0; const R = mulberry(seed);
+  const names = ["Jake", "Mia", "Tyler", "Ava", "Luis", "Emma", "Noah", "Zoe", "Eli", "Sofia", "Ben", "Lily", "Max", "Grace", "Owen"]; const items = [["Retatrutide", "10mg", 89], ["BPC-157", "10mg", 42], ["TB-500", "10mg", 62], ["CJC-1295 / Ipamorelin", "10mg", 79], ["GHK-Cu", "50mg", 44], ["Semaglutide", "10mg", 55], ["Tirzepatide", "30mg", 145], ["NAD+", "500mg", 62], ["Glow", "70mg", 99]];
+  const custs = []; const out = []; let n = 20000;
+  for (let d = 55; d >= 0; d--) { if (R() > .22) continue; let c; if (custs.length && R() < .45) c = custs[Math.floor(R() * custs.length)]; else { const f = names[Math.floor(R() * names.length)]; c = { key: "s" + custs.length, first: f, last: "ABCDEGHKLMNPRST"[Math.floor(R() * 15)], email: f[0].toLowerCase() + "***@fsu.edu", city: "Tallahassee" }; custs.push(c); } const it = items[Math.floor(R() * items.length)]; const qty = R() < .85 ? 1 : 2; const sub = R() < .3; const t = new Date(); t.setDate(t.getDate() - d); t.setHours(9 + Math.floor(R() * 11), Math.floor(R() * 60)); const total = Math.round(it[2] * qty * (sub ? .9 : 1) * .9 + (R() < .5 ? 8 : 0)); out.push({ id: "VL-" + (n++), t: t.toISOString(), customer: c, items: [{ name: it[0], size: it[1], qty, price: it[2] }], sub, totals: { total }, status: d < 1 ? "packing" : "delivered" }); }
+  return out;
+}
+function norm(raw) {
+  const custs = {}; const list = raw.slice().sort((a, b) => new Date(a.t) - new Date(b.t)).map(o => { const k = o.customer.key || o.id; let c = custs[k]; if (!c) c = custs[k] = { key: k, name: `${o.customer.first || "Guest"} ${o.customer.last || ""}${o.customer.last ? "." : ""}`, email: o.customer.email || "", where: o.customer.city || o.customer.zip || "", orders: 0, spent: 0, first: null, last: null, sub: false, lastProduct: "" }; const t = new Date(o.t); const items = o.items || []; const f = items[0] || { name: "Order", size: "", qty: 1 }; const total = Math.round((o.totals && o.totals.total) || items.reduce((a, i) => a + i.price * i.qty, 0)); const row = { id: o.id, t, total, product: f.name + (items.length > 1 ? ` +${items.length - 1}` : ""), size: f.size, qty: f.qty, sub: !!o.sub, newc: c.orders === 0, cust: c, status: o.status || "received", pay: (Date.now() - t) < 30 * 864e5 && c.orders === 0 ? "hold" : "clear" }; c.orders++; c.spent += total; c.first = c.first || t; c.last = t; c.sub = c.sub || !!o.sub; c.lastProduct = f.name + " " + f.size; return row; });
+  return { orders: list.reverse(), custs: Object.values(custs) };
+}
+function stats(rate) {
+  const { orders, custs } = norm(P.sample ? sampleOrders(P.rep.code) : P.raw);
+  const o30 = orders.filter(o => inDays(o.t, 30)), oP = orders.filter(o => inDays(o.t, 30, 30));
+  const now = new Date(); const m0 = new Date(now.getFullYear(), now.getMonth(), 1); const oM = orders.filter(o => o.t >= m0);
+  const rev = o30.reduce((a, o) => a + o.total, 0), prev = oP.reduce((a, o) => a + o.total, 0), revM = oM.reduce((a, o) => a + o.total, 0);
+  const owed = revM * rate, hold = oM.filter(o => o.pay === "hold").reduce((a, o) => a + o.total, 0) * rate;
+  const wk = [], wl = []; for (let w = 7; w >= 0; w--) { wk.push(orders.filter(o => inDays(o.t, 7, w * 7)).reduce((a, o) => a + o.total, 0)); wl.push(w === 0 ? "this wk" : w + "w ago"); }
+  return { orders, custs, uses: o30.length, rev, prev, revM, newc: o30.filter(o => o.newc).length, reorder: custs.length ? custs.filter(c => c.orders > 1).length / custs.length : 0, life: orders.reduce((a, o) => a + o.total, 0), owed, hold, clear: owed - hold, wk, wl };
+}
+function qrSvg(url) { try { const q = qrcode(0, "M"); q.addData(url); q.make(); return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); } catch (e) { return ""; } }
+function render() {
+  const r = P.rep, el = $("#portal"); if (!r) { el.innerHTML = `<p class="ow-note">Couldn't load your code. <a href="/login">Log in again</a>.</p>`; return; }
+  const T = TIER[r.tier] || TIER.Rep; const s = stats(r.rate); const link = `${P.site}/?code=${r.code}`;
+  const banners = [];
+  if (P.viewer === "owner") banners.push(`<div class="pt-banner info">Owner view of ${r.code}'s portal. <a href="/owners">Back to the dashboard</a></div>`);
+  if (r.status === "paused") banners.push(`<div class="pt-banner warn"><b>Your code is paused.</b> Orders with it won't apply the discount until an owner turns it back on. Text Andrew or Aiden if you don't know why.</div>`);
+  if (r.status === "strike") banners.push(`<div class="pt-banner bad"><b>Strike on file.</b> Your payout is held until an owner clears it. Usually this is a post that made a health or results claim. Take it down and text an owner.</div>`);
+  if (r.mustChange && P.viewer === "rep") banners.push(`<div class="pt-banner warn"><b>Set your own password.</b> You're on the one-time password you were texted. <button class="ow-btn sm" data-act="pw">Set password</button></div>`);
+  if (P.sample) banners.push(`<div class="pt-banner info"><span class="ow-demo">Sample numbers</span> This is what your portal looks like once orders come in. Nothing here is real. <button class="ow-btn ghost sm" data-act="sample">Back to my real numbers</button></div>`);
+  const empty = !P.sample && !s.orders.length;
+  const pwForm = P.pw ? `<div class="ow-card" style="margin-bottom:14px"><h3>Set your password</h3><p class="hint">8 characters or more. You'll use your code ${r.code} and this password to log in.</p><div class="pt-form"><input id="pw-cur" type="password" placeholder="Current (one-time) password" autocomplete="current-password"><input id="pw-new" type="password" placeholder="New password" autocomplete="new-password"><input id="pw-new2" type="password" placeholder="New password again" autocomplete="new-password"><div class="ow-acts"><button class="ow-btn sm" data-act="pwsave">Save password</button><button class="ow-btn ghost sm" data-act="pw">Cancel</button></div></div></div>` : "";
+  const delta = s.prev ? (s.rev - s.prev) / s.prev : null;
+  const kpis = `<div class="ow-kpis"><div class="ow-kpi"><small>Orders 30d</small><b>${s.uses}</b><em>${s.newc} new customers</em></div><div class="ow-kpi"><small>Revenue 30d</small><b>${fm(s.rev)}</b><em class="${delta == null ? "" : delta >= 0 ? "up" : "dn"}">${delta == null ? "first 30 days" : (delta >= 0 ? "▲ " : "▼ ") + Math.abs(delta * 100).toFixed(0) + "% vs prior 30"}</em></div><div class="ow-kpi"><small>Customers</small><b>${s.custs.length}</b><em>${(s.reorder * 100).toFixed(0)}% have reordered</em></div><div class="ow-kpi"><small>Lifetime on your code</small><b>${fm(s.life)}</b><em>since you started</em></div><div class="ow-kpi"><small>Your rate</small><b>${(r.rate * 100).toFixed(0)}%</b><em>${r.tier}</em></div><div class="ow-kpi"><small>Owed this month</small><b>${fm(s.owed)}</b><em>${fm(s.hold)} on 30-day hold</em></div></div>`;
+  const prog = T.goal ? `<div class="pt-prog"><i style="--w:${Math.min(100, s.revM / T.goal * 100).toFixed(0)}%"></i></div><div class="hint" style="margin:0">${fm(s.revM)} of ${fm(T.goal)} this month toward ${T.next} (${(TIER[T.next].rate * 100).toFixed(0)}%). ${T.how}.</div>` : T.next ? `<div class="hint" style="margin:0">Next: ${T.next}. ${T.how}.</div>` : `<div class="hint" style="margin:0">Top tier. 20% plus 5% override on your reps.</div>`;
+  const share = `<div class="ow-card"><h3>Share your code</h3><p class="hint">Anyone who orders through this link or types your code gets 10% off their first order, and the order is yours for 12 months of reorders.</p><div class="pt-share"><div><div class="pt-link"><span>${link}</span><button class="ow-btn sm" data-act="copy" data-text="${link}">Copy</button></div><div class="pt-link" style="margin-top:8px"><span>Code: <b>${r.code}</b></span><button class="ow-btn ghost sm" data-act="copy" data-text="${r.code}">Copy</button></div><div class="ow-acts"><a class="ow-btn ghost sm" href="sms:?&body=${encodeURIComponent("Varsity Labs, research peptides with a public lab report on every lot. My code " + r.code + " takes 10% off a first order: " + link)}" style="text-decoration:none">Text it</a><button class="ow-btn ghost sm" data-act="copy" data-text="${("Varsity Labs, research peptides with a public lab report on every lot. My code " + r.code + " takes 10% off a first order: " + link).replace(/"/g, "&quot;")}">Copy a caption</button></div></div><div class="pt-qr">${qrSvg(link)}</div></div></div>`;
+  const earn = `<div class="ow-card"><h3>Your earnings</h3><div class="ow-stat"><div><small>Owed this month</small><b>${fm(s.owed)}</b></div><div><small>On hold</small><b>${fm(s.hold)}</b></div><div><small>Clears now</small><b>${fm(s.clear)}</b></div></div><p class="hint">Paid on the 1st. First orders sit on a 30-day hold in case of a refund or chargeback, then clear. Reorders clear right away.</p><h3 style="font-size:13px;margin:12px 0 2px">Tier progress</h3>${prog}</div>`;
+  const chart = `<div class="ow-card"><div class="ch"><h3>Revenue on your code, last 8 weeks</h3><span class="hint">hover a bar</span></div><div class="ow-bars">${barsSVG(s.wk, s.wl, "var(--maroon)", 130)}</div></div>`;
+  const custRows = s.custs.sort((a, b) => b.last - a.last).map(c => { const due = Math.round(28 - (Date.now() - c.last) / 864e5); return `<tr><td>${c.name}<br><span style="color:var(--ink-3);font-size:11px">${c.email}</span></td><td>${c.where}</td><td class="r">${c.orders}</td><td class="r">${fm(c.spent)}</td><td>${c.lastProduct}<br><span style="color:var(--ink-3);font-size:11px">${ago(c.last)}${c.sub ? " · subscribed" : ""}</span></td><td>${c.sub ? '<span class="ow-pill ok">auto</span>' : due <= 0 ? '<span class="ow-pill warn">overdue, check in</span>' : due <= 7 ? `<span class="ow-pill camp">${due}d, nudge them</span>` : due + "d"}</td></tr>`; }).join("");
+  const customers = `<div class="ow-card"><div class="ch"><h3>Your customers</h3><span class="hint">${s.custs.length} people</span></div><p class="hint">Emails are masked. A reorder is due about 4 weeks after the last order; a text the week before keeps them on your code.</p><div class="ow-scroll"><table class="ow-table"><thead><tr><th>Customer</th><th>Where</th><th class="r">Orders</th><th class="r">Spent</th><th>Last</th><th>Next</th></tr></thead><tbody>${custRows}</tbody></table></div></div>`;
+  const feed = `<div class="ow-card"><h3>Orders on your code</h3><ul class="ow-list ow-feed">${s.orders.slice(0, 12).map(o => `<li><span class="ow-dot" style="--lc:var(--maroon)"></span><span><b class="ow-code">${o.id}</b> · ${o.cust.name} · ${o.product} ${o.size}${o.qty > 1 ? " ×" + o.qty : ""} · ${fm(o.total)}${o.newc ? ' <span class="ow-pill ok">new</span>' : ' <span class="ow-pill">reorder</span>'} <span class="ow-pill ${o.pay === "hold" ? "warn" : "ok"}">${fm(o.total * r.rate)} ${o.pay}</span></span><span class="t">${ago(o.t)}</span></li>`).join("")}</ul></div>`;
+  const emptyCard = `<div class="ow-card pt-empty"><h3 class="disp">No orders on your code yet</h3><p style="color:var(--ink-2);max-width:520px;margin:0 auto 14px">Share the link above. The first order usually comes from a gym chat or a teammate, and the second from them reordering four weeks later.</p><div class="ow-acts" style="justify-content:center"><button class="ow-btn ghost sm" data-act="sample">Show me what it looks like with orders</button></div></div>`;
+  el.innerHTML = `${banners.join("")}<div class="pt-head"><div><div class="pt-code">${r.code}</div><div class="pt-sub">${r.name} · ${r.campus} · ${r.tier} · ${(r.rate * 100).toFixed(0)}% on every order with your code · ${r.status === "active" ? '<span class="ow-pill ok">active</span>' : r.status === "paused" ? '<span class="ow-pill warn">paused</span>' : '<span class="ow-pill bad">strike</span>'}</div></div><div class="ow-acts" style="margin:0">${P.viewer === "rep" ? '<button class="ow-btn ghost sm" data-act="pw">Change password</button>' : ""}<a class="ow-btn ghost sm" href="/" style="text-decoration:none">Store</a></div></div>${pwForm}${share}<div style="height:14px"></div>${empty ? emptyCard : kpis + `<div class="ow-grid">${chart}${earn}</div><div class="ow-grid" style="grid-template-columns:minmax(0,7fr) minmax(0,5fr)">${customers}${feed}</div>`}<p class="ow-note">Questions about a payout or a customer on your code: text an owner. Your numbers update as orders land.</p>`;
+}
+$("#portal").addEventListener("click", async e => {
+  const b = e.target.closest("[data-act]"); if (!b) return; const a = b.dataset.act;
+  if (a === "copy") { const t = b.dataset.text; (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Copied"), () => prompt("Copy this:", t)); }
+  if (a === "sample") { P.sample = !P.sample; render(); window.scrollTo(0, 0); }
+  if (a === "pw") { P.pw = !P.pw; render(); }
+  if (a === "pwsave") { const cur = $("#pw-cur").value, n1 = $("#pw-new").value, n2 = $("#pw-new2").value; if (n1 !== n2) { toast("New passwords don't match"); return; } if (n1.length < 8) { toast("8 characters or more"); return; } try { const r = await fetch("/api/portal/password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ current: cur, next: n1 }) }); const j = await r.json(); if (!r.ok) throw new Error(j.error || "failed"); P.rep.mustChange = false; P.pw = false; toast("Password set"); render(); } catch (err) { toast(err.message); } }
+});
+(async () => {
+  try { const q = new URLSearchParams(location.search); const r = await fetch("/api/portal" + (q.get("code") ? "?code=" + encodeURIComponent(q.get("code")) : "")); if (r.status === 401) { location.href = "/login?next=/portal"; return; } const j = await r.json(); if (!r.ok) { $("#portal").innerHTML = `<p class="ow-note">${j.error || "Couldn't load."} <a href="/owners">Back</a></p>`; return; } P.rep = j.rep; P.viewer = j.viewer; P.raw = j.orders || []; P.site = j.site || location.origin; render(); } catch (e) { $("#portal").innerHTML = `<p class="ow-note">Couldn't load your portal. <a href="/login">Log in again</a>.</p>`; }
+})();
+</script></body></html>

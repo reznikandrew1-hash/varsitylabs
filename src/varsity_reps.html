@@ -1,0 +1,328 @@
+<title>Varsity Reps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f4ee; --surface: #ffffff; --surface-2: #edeae1; --line: #dcd8cc; --line-strong: #b8b3a4;
+    --ink: #161a22; --ink-2: #5d6470; --ink-3: #8b909a;
+    --maroon: #8a2432; --maroon-ink: #ffffff; --maroon-soft: #f3e3e5;
+    --gold: #b8842f; --gold-soft: #f6ecd8;
+    --ok: #1f9d5c; --ok-soft: #dff3e8; --warn: #c2410c; --warn-soft: #fde8dc;
+    --shadow: 0 2px 6px rgba(22,26,34,.08), 0 12px 32px rgba(22,26,34,.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #141a26; --surface: #1c2331; --surface-2: #242c3b; --line: #313a4b; --line-strong: #4a546a;
+      --ink: #eef0f4; --ink-2: #b3b9c6; --ink-3: #7f8797;
+      --maroon: #c9505f; --maroon-ink: #1a0b0e; --maroon-soft: #3a1f26;
+      --gold: #d3a04b; --gold-soft: #3a2f1a;
+      --ok: #3ec97e; --ok-soft: #173a29; --warn: #f97316; --warn-soft: #3d2113;
+      --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #141a26; --surface: #1c2331; --surface-2: #242c3b; --line: #313a4b; --line-strong: #4a546a;
+    --ink: #eef0f4; --ink-2: #b3b9c6; --ink-3: #7f8797;
+    --maroon: #c9505f; --maroon-ink: #1a0b0e; --maroon-soft: #3a1f26;
+    --gold: #d3a04b; --gold-soft: #3a2f1a;
+    --ok: #3ec97e; --ok-soft: #173a29; --warn: #f97316; --warn-soft: #3d2113;
+    --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.4);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-size: 15px; line-height: 1.5; }
+  .disp { font-family: "Big Shoulders Display", "Archivo Narrow", "Arial Narrow", sans-serif; font-weight: 800; letter-spacing: .01em; line-height: .95; text-transform: uppercase; }
+  .mono { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  a { color: inherit; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+  .top { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .v { width: 34px; height: 34px; background: var(--maroon); color: var(--maroon-ink); display: grid; place-items: center; font-family: "Big Shoulders Display", sans-serif; font-weight: 900; font-size: 26px; border-radius: 4px; }
+  .logo .n { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase; letter-spacing: .04em; }
+  .logo .n small { display: block; font-family: "Archivo", sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .18em; color: var(--ink-3); margin-top: -3px; }
+  .top .r { margin-left: auto; display: flex; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; padding: 10px 16px; font-weight: 700; border: 1px solid var(--line-strong); background: var(--surface); text-decoration: none; font-size: 14px; }
+  .btn.pri { background: var(--maroon); color: var(--maroon-ink); border-color: var(--maroon); }
+  .btn:disabled { opacity: .5; cursor: default; }
+
+  .hero { position: relative; background: #0d1119; color: #fff; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0; background: url("img/cat-healing.jpg") center / cover no-repeat; opacity: .45; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,17,25,.96) 0%, rgba(13,17,25,.75) 55%, rgba(13,17,25,.3) 100%); }
+  .hero .wrap { position: relative; z-index: 1; padding: 56px 24px 48px; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: center; }
+  .hero h1 { font-size: clamp(46px, 6.5vw, 80px); margin: 0; text-wrap: balance; }
+  .hero h1 em { font-style: normal; color: #e0697a; }
+  .hero p { color: #c3c9d4; max-width: 54ch; font-size: 16px; margin: 14px 0 0; }
+  .hero .cta { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .hero .btn { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.25); color: #fff; }
+  .hero .btn.pri { background: #8a2432; border-color: #8a2432; }
+  .numbers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .num { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 14px 16px; }
+  .num b { display: block; font-family: "Big Shoulders Display", sans-serif; font-size: 40px; font-weight: 900; line-height: 1; color: #fff; }
+  .num span { font-size: 12.5px; color: #c3c9d4; }
+
+  section { padding: 40px 0 8px; }
+  .sh { margin-bottom: 16px; }
+  .sh h2 { font-size: 40px; margin: 0; }
+  .sh p { margin: 4px 0 0; color: var(--ink-2); max-width: 66ch; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+  .step b { display: block; font-family: "Big Shoulders Display", sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .step span { color: var(--ink-2); font-size: 14px; }
+  .step i { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--maroon); color: var(--maroon-ink); font-style: normal; font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+
+  .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .tier { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+  .tier.hi { border-color: var(--maroon); box-shadow: 0 0 0 2px var(--maroon) inset; }
+  .tier .lvl { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); font-weight: 800; }
+  .tier .rate { font-family: "Big Shoulders Display", sans-serif; font-size: 56px; font-weight: 900; line-height: 1; }
+  .tier .rate small { font-family: "Archivo", sans-serif; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-left: 6px; letter-spacing: 0; }
+  .tier h3 { margin: 0; font-size: 28px; }
+  .tier ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: var(--ink-2); }
+  .tier li { padding-left: 14px; position: relative; }
+  .tier li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--maroon); }
+  .tier li b { color: var(--ink); }
+  .tier .how { margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 12.5px; color: var(--ink-3); }
+
+  .bonus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .bonus div { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--ink-2); }
+  .bonus b { display: block; font-family: "Big Shoulders Display", sans-serif; font-size: 30px; font-weight: 800; color: var(--ink); line-height: 1; }
+
+  .calc { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+  .ctl { display: grid; grid-template-columns: 1fr 80px; gap: 4px 10px; align-items: center; padding: 6px 0; }
+  .ctl label { font-size: 13.5px; }
+  .ctl label small { display: block; color: var(--ink-3); font-size: 11.5px; }
+  .ctl .val { text-align: right; font-weight: 700; }
+  .ctl input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--maroon); margin: 0; }
+  .tsw { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+  .tsw button { border: 0; background: var(--surface); padding: 9px 6px; font-weight: 700; font-size: 13px; color: var(--ink-2); }
+  .tsw button + button { border-left: 1px solid var(--line-strong); }
+  .tsw button[aria-pressed="true"] { background: var(--maroon); color: var(--maroon-ink); }
+  .tsw button small { display: block; font-weight: 600; font-size: 11px; opacity: .8; }
+  .tier.on { border-color: var(--maroon); box-shadow: 0 0 0 2px var(--maroon) inset; }
+  .tier.on::after { content: "Selected in the calculator"; position: absolute; top: -10px; right: 14px; background: var(--maroon); color: var(--maroon-ink); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; padding: 2px 8px; border-radius: 4px; }
+  .out { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
+  .out div { background: var(--surface-2); border-radius: 10px; padding: 14px 16px; }
+  .out div b { display: block; font-family: "Big Shoulders Display", sans-serif; font-size: 36px; font-weight: 900; line-height: 1; }
+  .out div span { font-size: 12.5px; color: var(--ink-2); }
+  .out .big { grid-column: 1 / -1; background: var(--maroon); color: var(--maroon-ink); }
+  .out .big span { color: rgba(255,255,255,.8); }
+  .out .big b { color: #fff; font-size: 48px; }
+
+  .rules { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .rulebox { border-radius: 12px; padding: 18px 20px; }
+  .rulebox.ok { background: var(--ok-soft); } .rulebox.no { background: var(--warn-soft); }
+  .rulebox h3 { margin: 0 0 8px; font-size: 26px; }
+  .rulebox.ok h3 { color: var(--ok); } .rulebox.no h3 { color: var(--warn); }
+  .rulebox ul { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; display: flex; flex-direction: column; gap: 4px; }
+
+  .reg { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; }
+  .reg .side { position: sticky; top: 80px; }
+  .reg .side h2 { font-size: 40px; margin: 0 0 8px; }
+  .reg .side p { color: var(--ink-2); margin: 0 0 14px; }
+  .codebox { background: #0d1119; color: #fff; border-radius: 12px; padding: 16px 18px; }
+  .codebox small { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #c3c9d4; font-weight: 700; margin-bottom: 4px; }
+  .codebox b { font-family: "IBM Plex Mono", monospace; font-size: 30px; font-weight: 600; letter-spacing: .04em; color: var(--gold); }
+  .codebox span { display: block; font-size: 12.5px; color: #c3c9d4; margin-top: 6px; }
+  form { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .f { display: flex; flex-direction: column; gap: 5px; }
+  .f.full { grid-column: 1 / -1; }
+  .f label { font-size: 12.5px; font-weight: 700; }
+  .f label small { color: var(--ink-3); font-weight: 500; }
+  .f input, .f select, .f textarea { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 8px; padding: 10px 12px; width: 100%; }
+  .f textarea { min-height: 84px; resize: vertical; }
+  .chk { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--ink-2); }
+  .chk input { margin-top: 3px; }
+  .chk b { color: var(--ink); }
+  .err { font-size: 12.5px; color: var(--warn); font-weight: 600; }
+  .done { grid-column: 1 / -1; background: var(--ok-soft); border-radius: 10px; padding: 16px 18px; }
+  .done b { display: block; font-family: "Big Shoulders Display", sans-serif; font-size: 30px; font-weight: 800; color: var(--ok); }
+  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; }
+  .faq div { padding: 12px 0; border-top: 1px solid var(--line); }
+  .faq b { display: block; font-weight: 700; margin-bottom: 3px; }
+  .faq span { color: var(--ink-2); font-size: 14px; }
+  footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 48px; font-size: 12.5px; color: var(--ink-3); }
+  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: 14px; z-index: 60; box-shadow: var(--shadow); }
+  @media (max-width: 900px) { .hero .wrap, .calc, .rules, .reg, .faq { grid-template-columns: 1fr; } .steps, .tiers { grid-template-columns: 1fr; } .bonus { grid-template-columns: 1fr 1fr; } form { grid-template-columns: 1fr; } .f.full { grid-column: auto; } .reg .side { position: static; } }
+  @media (max-width: 640px) { .top .wrap { height: auto; flex-wrap: wrap; padding: 10px 16px; gap: 10px; } .logo .n { font-size: 20px; white-space: nowrap; } .logo .n small { display: none; } .top .r { width: 100%; margin-left: 0; } .top .r .btn { flex: 1; justify-content: center; } .wrap { padding: 0 16px; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<div class="top"><div class="wrap">
+  <a class="logo" href="https://claude.ai/code/artifact/983fcaf3-204b-4842-8353-b48c1440141b"><span class="v">V</span><span class="n">Varsity Labs<small>REP PROGRAM</small></span></a>
+  <div class="r"><a class="btn" href="https://claude.ai/code/artifact/983fcaf3-204b-4842-8353-b48c1440141b">Back to the store</a><a class="btn pri" href="#apply">Apply</a></div>
+</div></div>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <h1 class="disp">Get paid to be the one who <em>reads the label.</em></h1>
+    <p>Varsity Reps are the students, athletes and creators who send people to a brand that tests every lot. You get a code and a link. Every order on your code pays you for 12 months, and you never have to say a word about dosing.</p>
+    <div class="cta"><a class="btn pri" href="#apply">Apply in two minutes</a><a class="btn" href="#tiers">See the tiers</a></div>
+  </div>
+  <div class="numbers">
+    <div class="num"><b>15%</b><span>on every order with your code, from day one</span></div>
+    <div class="num"><b>12 mo</b><span>you're paid on each customer's reorders, not just the first</span></div>
+    <div class="num"><b>Net 15</b><span>paid monthly, 15 days after month end, $50 minimum</span></div>
+    <div class="num"><b>10% off</b><span>your code gives every new customer a first-order discount</span></div>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <section>
+    <div class="sh"><h2 class="disp">How it works</h2></div>
+    <div class="steps">
+      <div class="step"><i>1</i><b class="disp">Apply and pick a code</b><span>Tell us your campus and where you'll post. We approve reps within 48 hours and your code goes live, like <span class="mono">FSU-ALEX</span>.</span></div>
+      <div class="step"><i>2</i><b class="disp">Share the code, not claims</b><span>Your code gives people 10% off their first order. You get a link, a QR, the lab reports to share, and a short script for sharing it.</span></div>
+      <div class="step"><i>3</i><b class="disp">Get paid monthly</b><span>Every order on your code for 12 months per customer pays your rate. Statements on the 1st, money by the 15th. Track it in your dashboard.</span></div>
+    </div>
+  </section>
+
+  <section id="tiers">
+    <div class="sh"><h2 class="disp">Three tiers, one ladder</h2><p>Everyone starts as a Rep. Hit the numbers and you move up. Nobody moves down for a slow month; you'd have to go two months under the bar.</p></div>
+    <div class="tiers">
+      <div class="tier" data-tier="rep"><span class="lvl">Start here</span><h3 class="disp">Rep</h3><div class="rate">15<small>% of every order</small></div>
+        <ul><li><b>Your own code and link</b>, live within 48 hours</li><li><b>12 months of reorders</b> on every customer you bring</li><li><b>$60 a month in product</b> once you pass $500 in code sales</li><li>Lab reports, QR cards and a posting guide</li></ul>
+        <div class="how">Open to anyone 21+ who signs the claims policy.</div></div>
+      <div class="tier" data-tier="senior"><span class="lvl">$2,000 a month for 2 months</span><h3 class="disp">Senior Rep</h3><div class="rate">18<small>% of every order</small></div>
+        <ul><li>Everything a Rep gets</li><li><b>$150 monthly bonus</b> while you hold the level</li><li><b>Same-day campus delivery route</b> on your campus, if you want it</li><li>Hoodie budget and early access to new compounds</li></ul>
+        <div class="how">Most active reps get here in month three or four.</div></div>
+      <div class="tier" data-tier="mgr"><span class="lvl">One per campus, by invite</span><h3 class="disp">Campus Manager</h3><div class="rate">20<small>% + 5% override</small></div>
+        <ul><li>Everything a Senior Rep gets</li><li><b>5% override</b> on every order from reps you recruit, 4 to 8 per campus</li><li><b>$300 monthly stipend</b></li><li>Weekly numbers call with the founders</li></ul>
+        <div class="how">We pick managers from Senior Reps who've recruited at least two reps.</div></div>
+    </div>
+    <div class="bonus">
+      <div><b>$100</b>bonus at $1,500 in code sales in a month</div>
+      <div><b>$300</b>bonus at $3,500</div>
+      <div><b>$750</b>bonus at $7,500</div>
+      <div><b>$500</b>to the top rep across all campuses, every month</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><h2 class="disp">What it adds up to</h2><p>Pick a tier, then drag the sliders. A rep with a gym group chat and a few dozen friends usually lands around 8 to 15 orders a month by month two.</p></div>
+    <div class="calc">
+      <div><div class="tsw" id="tsw"></div><div id="ctl"></div></div>
+      <div class="out">
+        <div class="big"><b id="oMonth"></b><span>a month, at this pace</span></div>
+        <div><b id="oComm"></b><span>commission</span></div>
+        <div><b id="oBonus"></b><span id="oBonusS">bonuses</span></div>
+        <div><b id="oYear"></b><span>a year, before you level up</span></div>
+        <div><b id="oTier"></b><span id="oTierS"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply">
+    <div class="reg">
+      <div class="side">
+        <h2 class="disp">Apply</h2>
+        <p>Two minutes. We read every application and approve within 48 hours. No website needed; a phone and a group chat is enough.</p>
+        <div class="codebox"><small>Your code will look like</small><b id="codePreview">FSU-YOURNAME</b><span>Campus prefix plus your first name. Customers type it at checkout for 10% off. You can ask for a different one in the notes.</span></div>
+      </div>
+      <form id="form" novalidate>
+        <div class="f"><label>First name</label><input name="first" required autocomplete="given-name"></div>
+        <div class="f"><label>Last name</label><input name="last" required autocomplete="family-name"></div>
+        <div class="f"><label>Email</label><input name="email" type="email" required autocomplete="email"></div>
+        <div class="f"><label>Payout email <small>(PayPal, Venmo, Zelle or Cash App)</small></label><input name="payout" required placeholder="same as above is fine"></div>
+        <div class="f"><label>Campus</label><select name="campus" required><option value="">Choose one</option><option value="FSU">FSU</option><option value="UM">University of Miami (UM)</option><option value="KEISER">Keiser (KEISER)</option><option value="UF">UF</option><option value="UCF">UCF</option><option value="USF">USF</option><option value="FIU">FIU</option><option value="FAU">FAU</option><option value="FAMU">FAMU</option><option value="UNF">UNF</option><option value="FGCU">FGCU</option><option value="UWF">UWF</option><option value="NOVA">Nova Southeastern (NOVA)</option><option value="LYNN">Lynn (LYNN)</option><option value="PBSC">Palm Beach State (PBSC)</option><option value="UT">University of Tampa (UT)</option><option value="STETSON">Stetson (STETSON)</option><option value="ROLLINS">Rollins (ROLLINS)</option><option value="TCC">TCC</option><option value="MDC">Miami Dade College (MDC)</option><option value="BC">Broward College (BC)</option><option value="VALENCIA">Valencia (VALENCIA)</option><option value="FL">Other Florida college (FL)</option></select></div>
+        <div class="f"><label>Handle <small>(Instagram, TikTok or X, optional)</small></label><input name="handle" placeholder="@"></div>
+        <div class="f full"><label>How will you promote Varsity Labs?</label><textarea name="how" required placeholder="Gym group chat, my lifting page, a team I'm on, a club..."></textarea></div>
+        <div class="f full"><label>Anything else <small>(preferred code, questions)</small></label><input name="notes"></div>
+        <label class="chk full"><input type="checkbox" name="age" required><span>I am <b>21 or older</b>.</span></label>
+        <label class="chk full"><input type="checkbox" name="policy" required><span>I've read the <b>claims policy above</b> and understand that talking about dosing, results or health claims ends my code immediately.</span></label>
+        <div class="f full"><span class="err" id="err" hidden></span></div>
+        <div class="f full"><button class="btn pri" type="submit" id="submit">Submit application</button></div>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><h2 class="disp">Questions</h2></div>
+    <div class="faq">
+      <div><b>Do I need a website or a big following?</b><span>No. Most of our best reps have under 2,000 followers and a very active group chat.</span></div>
+      <div><b>When do I get paid?</b><span>Monthly. Statement on the 1st for the previous month, paid by the 15th, on delivered orders only, $50 minimum (it rolls over). A 30-day hold on first orders covers refunds.</span></div>
+      <div><b>Can I use my own code?</b><span>No, and we check. Codes are for other people's orders. You get the product allowance instead.</span></div>
+      <div><b>What if a customer forgets my code?</b><span>Your link sets a 30-day cookie, so the order still counts. If both fail, email us within 7 days with the order number and we'll fix it.</span></div>
+      <div><b>Can I be a rep at a school that isn't listed?</b><span>Yes. Pick "Other Florida college" and tell us the school in the form. New campuses get a manager once there are four active reps.</span></div>
+      <div><b>What can I post?</b><span>The unboxing, the QR scan to the report, the cold pack, the delivery. What we test, not what it does. The posting guide has templates.</span></div>
+    </div>
+  </section>
+
+  <footer>Varsity Labs Rep Program. Products are research compounds for laboratory use only and not for human or veterinary use. Reps must be 21 or older and must not make claims about use, dosing or effects. Commission is paid on delivered, non-refunded orders. Terms may change with 30 days' notice to active reps.</footer>
+</div>
+<div id="toastRoot"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const money = n => "$" + Math.round(n).toLocaleString("en-US");
+let tt; const toast = m => { $("#toastRoot").innerHTML = `<div class="toast">${m}</div>`; clearTimeout(tt); tt = setTimeout(() => $("#toastRoot").innerHTML = "", 2600); };
+
+// ---------- calculator ----------
+const C = { tier: "rep", orders: 12, aov: 140, reps: 5, repOrders: 10 };
+const TIERS = { rep: { name: "Rep", rate: 15, stipend: 0 }, senior: { name: "Senior Rep", rate: 18, stipend: 150 }, mgr: { name: "Campus Manager", rate: 20, stipend: 300, override: 5 } };
+const DEFS = [
+  { k: "orders", l: "Orders on your code per month", s: "friends, teammates, group chats", min: 2, max: 80, step: 1, f: v => v },
+  { k: "aov", l: "Average order", s: "one vial is $40 to $90, stacks $95 to $240", min: 60, max: 300, step: 5, f: v => "$" + v },
+  { k: "reps", l: "Reps you manage", s: "campus managers recruit 4 to 8", min: 1, max: 12, step: 1, f: v => v, mgr: true },
+  { k: "repOrders", l: "Orders each of your reps does a month", s: "you earn 5% on all of it", min: 2, max: 40, step: 1, f: v => v, mgr: true },
+];
+function renderCtl() {
+  $("#tsw").innerHTML = Object.entries(TIERS).map(([k, t]) => `<button data-tier="${k}" aria-pressed="${C.tier === k}">${t.name}<small>${t.rate}%${t.override ? " + " + t.override + "% override" : ""}</small></button>`).join("");
+  $("#tsw").querySelectorAll("button").forEach(b => b.addEventListener("click", () => { C.tier = b.dataset.tier; renderCtl(); calc(); }));
+  $("#ctl").innerHTML = DEFS.filter(d => !d.mgr || C.tier === "mgr").map(d => `<div class="ctl"><label>${d.l}<small>${d.s}</small></label><div class="val" id="v-${d.k}">${d.f(C[d.k])}</div><input type="range" id="in-${d.k}" min="${d.min}" max="${d.max}" step="${d.step}" value="${C[d.k]}"></div>`).join("");
+  DEFS.forEach(d => { const el = $("#in-" + d.k); if (el) el.addEventListener("input", e => { C[d.k] = +e.target.value; $("#v-" + d.k).textContent = d.f(C[d.k]); calc(); }); });
+  document.querySelectorAll(".tier").forEach(t => t.classList.toggle("on", t.dataset.tier === C.tier));
+}
+function calc() {
+  const t = TIERS[C.tier];
+  const sales = C.orders * C.aov;
+  const comm = sales * t.rate / 100;
+  const bonus = sales >= 7500 ? 750 : sales >= 3500 ? 300 : sales >= 1500 ? 100 : 0;
+  const teamSales = C.tier === "mgr" ? C.reps * C.repOrders * C.aov : 0;
+  const override = teamSales * (t.override || 0) / 100;
+  const month = comm + bonus + t.stipend + override;
+  $("#oMonth").textContent = money(month);
+  $("#oComm").textContent = money(comm) + " at " + t.rate + "%" + (override ? " + " + money(override) + " override" : "");
+  $("#oBonus").textContent = money(bonus + t.stipend);
+  $("#oBonusS").textContent = [bonus ? "volume bonus " + money(bonus) : "", t.stipend ? "monthly " + (C.tier === "mgr" ? "stipend" : "bonus") + " " + money(t.stipend) : ""].filter(Boolean).join(" + ") || "no bonus yet, $1,500 in sales unlocks $100";
+  $("#oYear").textContent = money(month * 12);
+  const qualifies = C.tier === "rep" ? "" : C.tier === "senior" ? (sales >= 2000 ? "qualifies at this volume" : "needs $2,000 a month for 2 months, you're at " + money(sales)) : "by invite, after recruiting 2 reps";
+  $("#oTier").textContent = t.name; $("#oTierS").textContent = money(sales) + " in your own code sales" + (teamSales ? " + " + money(teamSales) + " from your reps" : "") + (qualifies ? " · " + qualifies : "");
+}
+renderCtl(); calc();
+
+// ---------- code preview ----------
+const form = $("#form");
+const preview = () => { const f = (form.first.value || "yourname").replace(/[^a-z0-9]/gi, "").toUpperCase().slice(0, 12); const c = form.campus.value || "FSU"; $("#codePreview").textContent = `${c}-${f}`; };
+form.first.addEventListener("input", preview); form.campus.addEventListener("change", preview);
+
+// ---------- submit ----------
+let dbp = null;
+try { dbp = window.claude && window.claude.use ? window.claude.use("db") : Promise.resolve(null); } catch (e) { dbp = Promise.resolve(null); }
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#err"); err.hidden = true;
+  const d = Object.fromEntries(new FormData(form).entries());
+  const missing = ["first", "last", "email", "payout", "campus", "how"].filter(k => !(d[k] || "").trim());
+  if (missing.length || !form.age.checked || !form.policy.checked) { err.textContent = "Fill in every field and tick both boxes."; err.hidden = false; return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) { err.textContent = "That email doesn't look right."; err.hidden = false; return; }
+  const code = $("#codePreview").textContent;
+  const rec = { first: d.first.trim(), last: d.last.trim(), email: d.email.trim().toLowerCase(), payout: d.payout.trim(), campus: d.campus, handle: (d.handle || "").trim(), how: d.how.trim(), notes: (d.notes || "").trim(), code, status: "pending", submitted: new Date().toISOString(), ua: navigator.userAgent.slice(0, 80) };
+  $("#submit").disabled = true; $("#submit").textContent = "Sending…";
+  let saved = false;
+  try { const db = await dbp; if (db) { await db.collection("reps").add(rec); saved = true; } } catch (ex) { saved = false; }
+  if (!saved) {
+    // No database available in this view: hand it off by email so nothing is lost.
+    const body = encodeURIComponent(Object.entries(rec).filter(([k]) => k !== "ua").map(([k, v]) => `${k}: ${v}`).join("\n"));
+    window.location.href = `mailto:reps@shopvarsitylabs.com?subject=${encodeURIComponent("Rep application: " + code)}&body=${body}`;
+  }
+  form.innerHTML = `<div class="done"><b>Application in.</b>Thanks ${rec.first}. We'll email ${rec.email} within 48 hours. If approved, your code will be <span class="mono">${code}</span>.${saved ? "" : " Your mail app just opened with the application; hit send if it didn't go automatically."}</div>`;
+  toast("Application submitted");
+});
+</script>

@@ -1,0 +1,12 @@
+{
+  "name": "varsity-labs-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Varsity Labs storefront with an owner dashboard behind real logins",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:site": "python3 build_site.py"
+  },
+  "engines": { "node": ">=20" }
+}

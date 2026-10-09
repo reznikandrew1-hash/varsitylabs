@@ -1,0 +1,9 @@
+# Railway build: Node runs the server, Python (stdlib only) generates the site from src/ at build time.
+[phases.setup]
+nixPkgs = ["nodejs_20", "python3"]
+
+[phases.build]
+cmds = ["python3 build_site.py"]
+
+[start]
+cmd = "node server.js"

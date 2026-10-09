@@ -1,0 +1,186 @@
+<title>Varsity Labs Lab Reports</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f4ee; --surface: #ffffff; --surface-2: #edeae1; --line: #dcd8cc; --line-strong: #b8b3a4;
+    --ink: #161a22; --ink-2: #5d6470; --ink-3: #8b909a;
+    --maroon: #8a2432; --maroon-ink: #ffffff; --maroon-soft: #f3e3e5;
+    --gold: #b8842f; --gold-soft: #f6ecd8;
+    --ok: #1f9d5c; --ok-soft: #dff3e8; --warn: #c2410c; --warn-soft: #fde8dc;
+    --shadow: 0 2px 6px rgba(22,26,34,.08), 0 12px 32px rgba(22,26,34,.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #141a26; --surface: #1c2331; --surface-2: #242c3b; --line: #313a4b; --line-strong: #4a546a;
+      --ink: #eef0f4; --ink-2: #b3b9c6; --ink-3: #7f8797;
+      --maroon: #c9505f; --maroon-ink: #1a0b0e; --maroon-soft: #3a1f26;
+      --gold: #d3a04b; --gold-soft: #3a2f1a;
+      --ok: #3ec97e; --ok-soft: #173a29; --warn: #f97316; --warn-soft: #3d2113;
+      --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #141a26; --surface: #1c2331; --surface-2: #242c3b; --line: #313a4b; --line-strong: #4a546a;
+    --ink: #eef0f4; --ink-2: #b3b9c6; --ink-3: #7f8797;
+    --maroon: #c9505f; --maroon-ink: #1a0b0e; --maroon-soft: #3a1f26;
+    --gold: #d3a04b; --gold-soft: #3a2f1a;
+    --ok: #3ec97e; --ok-soft: #173a29; --warn: #f97316; --warn-soft: #3d2113;
+    --shadow: 0 2px 6px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.4);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.5; }
+  .disp { font-family: "Big Shoulders Display", "Archivo Narrow", "Arial Narrow", sans-serif; font-weight: 800; letter-spacing: .01em; line-height: .95; text-transform: uppercase; }
+  .mono { font-family: "IBM Plex Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  a { color: inherit; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  .top { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo .v { width: 34px; height: 34px; background: var(--maroon); color: var(--maroon-ink); display: grid; place-items: center; font-family: "Big Shoulders Display", sans-serif; font-weight: 900; font-size: 26px; border-radius: 4px; }
+  .logo .n { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase; letter-spacing: .04em; }
+  .logo .n small { display: block; font-family: "Archivo", sans-serif; font-weight: 600; font-size: 10px; letter-spacing: .18em; color: var(--ink-3); margin-top: -3px; }
+  .top .r { margin-left: auto; display: flex; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; padding: 9px 14px; font-weight: 700; border: 1px solid var(--line-strong); background: var(--surface); text-decoration: none; font-size: 13.5px; }
+  .btn.pri { background: var(--maroon); color: var(--maroon-ink); border-color: var(--maroon); }
+
+  .head { padding: 28px 0 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: end; }
+  .head h1 { font-size: 46px; margin: 0; }
+  .head p { margin: 6px 0 0; color: var(--ink-2); max-width: 62ch; }
+  .lab { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: var(--ink-2); min-width: 260px; }
+  .lab b { display: block; color: var(--ink); font-size: 14px; }
+  .lab .iso { display: inline-block; margin-top: 6px; background: var(--gold-soft); color: var(--gold); font-size: 10.5px; letter-spacing: .1em; font-weight: 800; padding: 2px 8px; border-radius: 4px; }
+
+  .layout { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 20px; padding-bottom: 56px; align-items: start; }
+  .side { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 10px; }
+  .find { display: flex; gap: 8px; }
+  .find input { flex: 1; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 8px; padding: 9px 12px; min-width: 0; }
+  .list { display: flex; flex-direction: column; gap: 4px; max-height: calc(100vh - 200px); overflow-y: auto; padding-right: 2px; }
+  .lot { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 9px 12px; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; }
+  .lot:hover { border-color: var(--line-strong); }
+  .lot[aria-pressed="true"] { border-color: var(--maroon); box-shadow: 0 0 0 1px var(--maroon) inset; }
+  .lot b { font-weight: 700; font-size: 13.5px; }
+  .lot .s { color: var(--ink-3); font-size: 12px; grid-column: 1; }
+  .lot .p { grid-row: 1 / span 2; font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 22px; text-align: right; }
+  .lot .p small { display: block; font-family: "Archivo", sans-serif; font-weight: 700; font-size: 10px; letter-spacing: .1em; }
+  .lot .p.ok { color: var(--ok); } .lot .p.warn { color: var(--warn); } .lot .p.na { color: var(--ink-3); }
+  .side .legal { font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 8px; }
+
+  .cert { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+  .ch { padding: 20px 24px 16px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+  .ch h2 { font-size: 38px; margin: 0; }
+  .ch .sub { color: var(--ink-2); font-size: 13px; margin-top: 4px; }
+  .verdict { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 10px; }
+  .verdict.ok { background: var(--ok-soft); } .verdict.warn { background: var(--warn-soft); } .verdict.na { background: var(--surface-2); }
+  .verdict .big { font-size: 34px; }
+  .verdict.ok .big { color: var(--ok); } .verdict.warn .big { color: var(--warn); } .verdict.na .big { color: var(--ink-3); }
+  .verdict div { font-size: 12.5px; color: var(--ink-2); max-width: 26ch; }
+  .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 20px; padding: 14px 24px; border-bottom: 1px solid var(--line); }
+  .facts div { font-size: 13px; }
+  .facts div b { display: block; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; }
+  .facts .n { font-family: "Big Shoulders Display", sans-serif; font-size: 28px; font-weight: 800; line-height: 1; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; background: var(--surface-2); }
+  td:last-child, th:last-child { text-align: right; white-space: nowrap; }
+  .pass { color: var(--ok); font-weight: 700; } .fail { color: var(--warn); font-weight: 700; } .rep { color: var(--ink-2); font-weight: 600; }
+  .tblwrap { padding: 0 24px 14px; overflow-x: auto; }
+  .tblwrap h3 { font-size: 22px; margin: 14px 0 6px; }
+  .note { margin: 0 24px 14px; padding: 10px 14px; border-radius: 8px; background: var(--warn-soft); font-size: 13px; color: var(--ink-2); }
+  .note b { color: var(--warn); }
+  .verify { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; padding: 12px 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface-2); font-size: 13px; }
+  .verify .mono { font-weight: 600; }
+  .verify a { color: var(--maroon); font-weight: 700; }
+  .pdf { background: var(--surface-2); padding: 16px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .pdf img { width: 100%; height: auto; display: block; border: 1px solid var(--line); box-shadow: var(--shadow); background: #fff; }
+  .pdfbar { display: flex; justify-content: space-between; align-items: center; padding: 10px 24px; font-size: 12.5px; color: var(--ink-2); }
+
+  @media (max-width: 900px) { .layout, .head { grid-template-columns: minmax(0, 1fr); } .side { position: static; } .list { max-height: none; } .facts { grid-template-columns: 1fr 1fr; } .ch { grid-template-columns: 1fr; } .pdf { height: 560px; } }
+  @media (max-width: 640px) { .side, .cert, .layout > * { min-width: 0; } .lot { grid-template-columns: minmax(0, 1fr) auto; } .lot b, .lot span { overflow-wrap: anywhere; } .top .wrap { height: auto; flex-wrap: wrap; padding: 10px 16px; gap: 10px; } .logo .n { font-size: 20px; white-space: nowrap; } .logo .n small { display: none; } .top .r { width: 100%; margin-left: 0; } .top .r .btn { flex: 1; justify-content: center; } .wrap { padding: 0 16px; } .ch, .facts { padding-left: 16px; padding-right: 16px; } table { display: block; overflow-x: auto; } }
+  @media print { .top, .side, .pdf, .pdfbar { display: none; } .cert { box-shadow: none; border: 0; } }
+</style>
+
+<div class="top"><div class="wrap">
+  <a class="logo" href="#"><span class="v">V</span><span class="n">Varsity Labs<small>LAB REPORTS</small></span></a>
+  <div class="r"><button class="btn" id="print">Print summary</button><a class="btn pri" href="https://claude.ai/code/artifact/983fcaf3-204b-4842-8353-b48c1440141b">Back to the store</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="head">
+    <div><h1 class="disp">Every lot, tested. Here are the reports.</h1><p>Independent third-party certificates of analysis for the lots we ship. Each one is verifiable on the lab's own portal with the access code printed on the report. Pick a product on the left, or type a lot number.</p></div>
+    <div class="lab"><b>ILS Laboratories</b>8222 Vickers St, Suite 106, San Diego, CA 92111<br>(619) 329-3999 &middot; ils-lab.com<span class="iso">ISO/IEC 17025 accredited</span><br><br><b>Supplier</b>Sobe, Palm Beach County, FL. Every lot on this page was produced by Sobe and tested by ILS before we list it.</div>
+  </div>
+  <div class="layout">
+    <aside class="side">
+      <div class="find"><input id="q" placeholder="Search product or lot, e.g. 032026" autocomplete="off"></div>
+      <div class="list" id="list"></div>
+      <div class="legal">Reports are issued by the laboratory to the manufacturing partner named on the certificate. Products are research compounds for laboratory use only. Full PDFs are the record; the summaries on this page are transcribed from them.</div>
+    </aside>
+    <div id="cert"></div>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+// Transcribed from the ILS Laboratories PDFs in /coa. Values are the lab's, not ours.
+const REPORTS = [
+  { id: "retatrutide-30mg-032026", name: "Retatrutide", size: "30mg", lot: "032026", coa: "COA-2026-TQ2G7P", received: "03/20/2026", tested: "03/26/2026", method: "Full Peptide QC Panel", purity: 99.38, content: "30.16 mg", endo: "NMT 0.05 EU/mL", endoStatus: "PASS", ster: "No growth (PCR)", metals: "all not detected", metalsStatus: "PASS", identity: "Retatrutide, confirmed by HPLC retention time vs. reference", access: "GOG6QY-Q", verify: "https://portal.ils-lab.com/verify/ndrmOhCEoK4ZDwR4", status: "PASS", pages: 2 },
+  { id: "retatrutide-20mg-032026", name: "Retatrutide", size: "20mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "03/26/2026", method: "Full Peptide QC Panel", purity: 99.01, content: "20.47 mg", endo: "0.040 EU/mL", endoStatus: "PASS", ster: "No growth (USP <71>)", metals: "all not detected", metalsStatus: "PASS", identity: "Retatrutide, confirmed by HPLC", access: "LPLXS4R8", verify: "https://portal.ils-lab.com/verify/lj6imHgrDljMOtCP", status: "PASS", pages: 1, scannedNote: true },
+  { id: "tirzepatide-60mg-032026", name: "Tirzepatide", size: "60mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "03/26/2026", method: "Full Peptide QC Panel", purity: 99.51, content: "62.04 mg", endo: "0.046 EU/mL", endoStatus: "PASS", ster: "No growth (USP <71>)", metals: "all not detected", metalsStatus: "PASS", identity: "Tirzepatide, confirmed by HPLC", access: "CQ3AITN1", verify: "https://portal.ils-lab.com/verify/SP0IXAcC1o0pTGVF", status: "PASS", pages: 1 },
+  { id: "bpc-tb500-5x5mg-032026", name: "BPC-157 / TB-500", size: "5mg + 5mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "03/26/2026", method: "Full Peptide QC Panel", purity: 99.74, content: "10.22 mg", endo: "0.036 EU/mL", endoStatus: "PASS", ster: "No growth (USP <71>)", metals: "all not detected", metalsStatus: "PASS", identity: "BPC-157 / TB-500, confirmed by HPLC", access: "VPNOBQBW", verify: "https://portal.ils-lab.com/verify/WvN5fgMhll4jl6uB", status: "PASS", pages: 1 },
+  { id: "bpc-tb500-10x10mg-032026", name: "BPC-157 / TB-500", size: "10mg + 10mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "03/26/2026", method: "Full Peptide QC Panel", purity: 99.14, content: "20.15 mg", endo: "0.036 EU/mL", endoStatus: "PASS", ster: "No growth (USP <71>)", metals: "all not detected", metalsStatus: "PASS", identity: "BPC-157 / TB-500, confirmed by HPLC", access: "NEGJILYE", verify: "https://portal.ils-lab.com/verify/DpqzssLlILPS-eU6", status: "PASS", pages: 1, scannedNote: true },
+  { id: "glow-70mg-032026", name: "Glow (BPC-157 / GHK-Cu / TB-500)", size: "10 + 50 + 10mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "04/16/2026", method: "Full QC Panel", purity: 99.13, content: "72.86 mg (blend)", endo: "not on this panel", endoStatus: "", ster: "not on this panel", metals: "all not detected", metalsStatus: "PASS", identity: "GHK-Cu, BPC-157, TB-500 each confirmed", access: "XWQSTINI", verify: "https://portal.ils-lab.com/verify/tAnFHyEc9BsQ3tNL", status: "PASS", pages: 1 },
+  { id: "klow-80mg-032026", name: "Klow (BPC-157 / GHK-Cu / KPV / TB-500)", size: "10 + 50 + 10 + 10mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "03/26/2026", method: "Full Peptide QC Panel", purity: 99.79, content: "81.21 mg (blend)", endo: "0.024 EU/mL", endoStatus: "PASS", ster: "No growth (USP <71>)", metals: "all not detected", metalsStatus: "PASS", identity: "BPC-157 / GHK-Cu / KPV / TB-500, confirmed by HPLC", access: "AH5YFUZP", verify: "https://portal.ils-lab.com/verify/sfsbi_GfXJCj2cWJ", status: "PASS", pages: 1 },
+  { id: "nad-1000mg-032026", name: "NAD+", size: "1000mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "04/16/2026", method: "Full QC Panel", purity: 99.67, content: "1046.54 mg", endo: "not on this panel", endoStatus: "", ster: "not on this panel", metals: "all not detected", metalsStatus: "PASS", identity: "NAD+, confirmed by HPLC retention time vs. reference", access: "UTJACJDT", verify: "https://portal.ils-lab.com/verify/ySdOJXZiNbhDLKsK", status: "PASS", pages: 1 },
+  { id: "tesamorelin-ipamorelin-5x5mg-032026", name: "Tesamorelin / Ipamorelin", size: "5mg + 5mg", lot: "032026", coa: "COA-2026-0001", received: "03/20/2026", tested: "04/16/2026", method: "Full QC Panel", purity: 99.58, content: "10.46 mg (blend)", endo: "not on this panel", endoStatus: "", ster: "not on this panel", metals: "all not detected", metalsStatus: "PASS", identity: "Ipamorelin and Tesamorelin each confirmed", access: "WFR7DYLD", verify: "https://portal.ils-lab.com/verify/_h7Dbj84CNaBfP7i", status: "PASS", pages: 1 },
+  { id: "cjc1295-ipamorelin-5x5mg-062026", name: "CJC-1295 / Ipamorelin", size: "5mg + 5mg", lot: "062026", coa: "COA-2026-954949", received: "08/05/2026", tested: "08/05/2026", method: "Full QC Panel", purity: 99.50, content: "10.45 mg (CJC-1295 5.12 mg, Ipamorelin 5.33 mg)", endo: "NMT 0.05 EU/mL (reported, no pass/fail)", endoStatus: "REPORTED", ster: "No growth (PCR)", metals: "Arsenic 6.5 ppm vs. limit 1.5 ppm", metalsStatus: "FAIL", identity: "CJC-1295 + Ipamorelin, confirmed by HPLC-RTM", access: "5S3LERSN", verify: "https://portal.ils-lab.com/verify/eYOn9KFQIakiIEUI", status: "HOLD", pages: 2, hold: "Heavy-metals panel failed on arsenic. Purity, identity and sterility passed. This lot should not ship until the lab retests it or the supplier replaces it." },
+];
+const st = r => r.status === "PASS" ? ["ok", "Pass", "All tested specifications met"] : r.status === "HOLD" ? ["warn", "Hold", "One panel failed. See the note."] : ["na", "PDF", "Scanned report. Open the PDF for values."];
+
+function renderList() {
+  const q = $("#q").value.trim().toLowerCase();
+  const rows = REPORTS.filter(r => !q || (r.name + " " + r.size + " " + r.lot + " " + r.coa).toLowerCase().includes(q));
+  $("#list").innerHTML = rows.length ? rows.map(r => { const [c, l] = st(r); return `<button class="lot" data-id="${r.id}" aria-pressed="${location.hash.slice(1) === r.id}"><b>${r.name}</b><span class="p ${c}">${r.purity != null ? r.purity.toFixed(2) + "%" : l}<small>${r.purity != null ? "purity" : ""}</small></span><span class="s">${r.size} &middot; Lot ${r.lot} &middot; tested ${r.tested}</span></button>`; }).join("") : `<div class="legal">No report matches. Lot numbers on these vials are six digits, like 032026.</div>`;
+  $("#list").querySelectorAll(".lot").forEach(b => b.addEventListener("click", () => { location.hash = b.dataset.id; show(b.dataset.id); }));
+}
+function show(id) {
+  const r = REPORTS.find(x => x.id === id) || REPORTS[0];
+  $("#list").querySelectorAll(".lot").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === r.id));
+  const [c, l, d] = st(r);
+  const row = (t, s, res, status) => `<tr><td>${t}</td><td>${s}</td><td>${res}</td><td class="${status === "PASS" ? "pass" : status === "FAIL" ? "fail" : "rep"}">${status || ""}</td></tr>`;
+  const file = "coa/" + r.id + ".pdf";
+  $("#cert").innerHTML = `<div class="cert">
+    <div class="ch"><div><h2 class="disp">${r.name}</h2><div class="sub">${r.size} &middot; Lot <span class="mono">${r.lot}</span> &middot; ${r.coa !== "see PDF" ? "Certificate <span class='mono'>" + r.coa + "</span> &middot; " : ""}${r.method}</div></div>
+      <div class="verdict ${c}"><span class="disp big">${l}</span><div>${d}</div></div></div>
+    ${r.hold ? `<div class="note" style="margin-top:14px"><b>On hold.</b> ${r.hold}</div>` : ""}
+    <div class="facts">
+      <div><b>Purity (HPLC)</b><span class="n mono">${r.purity != null ? r.purity.toFixed(2) + "%" : "see PDF"}</span></div>
+      <div><b>Net peptide content</b>${r.content}</div>
+      <div><b>Received / tested</b>${r.received} / ${r.tested}</div>
+      <div><b>Issued to</b>Sobe, Palm Beach County, FL</div>
+    </div>
+    ${r.scanned ? `<div class="tblwrap"><h3 class="disp">Values</h3><p style="color:var(--ink-2);margin:0 0 8px">This certificate was supplied as a scanned image, so the numbers could not be transcribed automatically. Read them from the PDF below.</p></div>` : `<div class="tblwrap"><h3 class="disp">Results</h3><table><thead><tr><th>Test</th><th>Specification</th><th>Result</th><th>Status</th></tr></thead><tbody>
+      ${row("Purity (HPLC)", r.method.includes("Peptide") ? "&gt; 98%" : "&ge; 95%", r.purity.toFixed(2) + "%", "PASS")}
+      ${row("Identity", "Matches reference", r.identity, "PASS")}
+      ${row("Net peptide content", "Report only", r.content, "")}
+      ${r.endoStatus || r.endo.startsWith("not") ? row("Endotoxin (USP &lt;85&gt;)", "&lt; 0.05 EU/mL", r.endo, r.endoStatus) : ""}
+      ${r.ster.startsWith("not") ? "" : row("Sterility", "No growth", r.ster, "PASS")}
+      ${row("Heavy metals (ICP-MS, USP &lt;233&gt;)", "As 1.5 &middot; Cd 0.5 &middot; Cr 10 &middot; Hg 1.5 &middot; Pb 1 ppm", r.metals, r.metalsStatus)}
+      </tbody></table></div>`}
+    <div class="verify"><span>Verify on the lab's portal:</span>${r.verify ? `<a href="${r.verify}" target="_blank" rel="noopener">${r.verify.replace("https://", "")}</a><span>Access code <span class="mono">${r.access}</span></span>` : `<span>QR and access code are printed on the PDF.</span>`}<span style="margin-left:auto">Signed by Dr. Greg Kalyuzhny, Lab Director</span></div>
+    <div class="pdfbar"><span>Original certificate, ${r.pages} page${r.pages > 1 ? "s" : ""}, as issued by the lab${r.scannedNote ? " (scanned copy; values above were read from the scan, confirm on the lab portal)" : ""}</span><a class="btn" href="${file}" target="_blank" rel="noopener">Open PDF in a new tab</a></div>
+    <div class="pdf">${Array.from({ length: r.pages }, (_, i) => `<img src="coa/${r.id}-p${i + 1}.jpg" alt="Certificate of analysis for ${r.name} lot ${r.lot}, page ${i + 1}" loading="lazy">`).join("")}</div>
+  </div>`;
+}
+$("#q").addEventListener("input", renderList);
+$("#print").addEventListener("click", () => window.print());
+renderList();
+show(location.hash.slice(1) || REPORTS[0].id);
+window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+</script>
